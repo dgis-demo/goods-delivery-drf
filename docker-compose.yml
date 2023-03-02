@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    command: gunicorn Project.wsgi:application -b 0.0.0.0:8000 -w 4 --reload
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./:/opt/app
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  db:
+    image: mdillon/postgis
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+volumes:
+  postgres_data:
