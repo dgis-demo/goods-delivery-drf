@@ -15,5 +15,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --no-cache-dir -r /opt/app/requirements.txt
 
 COPY . /opt/app
-VOLUME ["/opt/app/media"]
 WORKDIR /opt/app
+
+RUN rm -v /etc/nginx/nginx.conf
+ADD Deploy/nginx.conf /etc/nginx/
+
+RUN chmod +x ./Deploy/entrypoint.sh
+ENTRYPOINT ["bash", "./Deploy/entrypoint.sh"]
