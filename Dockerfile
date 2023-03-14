@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gdal-bin \
     python3-gdal \
     g++ \
-    make
+    make \
+    netcat
+
 RUN pip3 install --no-cache-dir -r /opt/app/requirements.txt
 
 COPY . /opt/app
