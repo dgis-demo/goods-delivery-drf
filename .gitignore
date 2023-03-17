@@ -159,3 +159,4 @@ media
 
 #local docker-compose
 docker-compose.local.yml
+collected_static
