@@ -52,10 +52,11 @@ class UserCodeVerifySerializer(serializers.ModelSerializer):
 
 class UserLoginPhoneSerializer(serializers.ModelSerializer):
     resend_time = serializers.IntegerField(read_only=True)
+    is_new_user = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['phone', 'resend_time']
+        fields = ['phone', 'resend_time', 'is_new_user']
         extra_kwargs = {
             'phone': {'allow_blank': False, 'required': True, 'validators': [phone_validator], 'write_only': True}
         }
@@ -63,6 +64,7 @@ class UserLoginPhoneSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         try:
+            is_new_user = False
             user = User.objects.get(phone=data['phone'])
             if not user.is_active:
                 raise serializers.ValidationError({'phone': [_('User is blocked')]})
@@ -72,10 +74,10 @@ class UserLoginPhoneSerializer(serializers.ModelSerializer):
                 phone=data['phone'],
                 role=self.context.get('role'),
             )
-            self.context['request'].log_context['is_new_user'] = True
+            is_new_user = True
 
-        self.context['request'].log_context['phone'] = data['phone']
         data['user'] = user
+        data['is_new_user'] = is_new_user
         otp = user.send_otp()
         data['debug'] = otp.debug_dict
         data['resend_time'] = otp.resend_time
