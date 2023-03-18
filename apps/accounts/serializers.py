@@ -28,12 +28,12 @@ class UserCodeVerifySerializer(serializers.ModelSerializer):
             self.context['request'].log_context['phone'] = data['phone']
             if not user.is_active:
                 raise serializers.ValidationError({'phone': [_('User is blocked')]})
-        except User.DoesNotExist:
-            raise default_validation_error
+        except User.DoesNotExist as e:
+            raise default_validation_error from e
         try:
             otp = user.check_otp(data['otp_code'])
-        except exceptions.InvalidCodeException:
-            raise default_validation_error
+        except exceptions.InvalidCodeException as e:
+            raise default_validation_error from e
         data['debug'] = otp.debug_dict
         if not otp.check_success:
             raise default_validation_error
