@@ -25,7 +25,6 @@ class UserCodeVerifySerializer(serializers.ModelSerializer):
         default_validation_error = serializers.ValidationError({'phone': [_('Phone or otp is incorrect')]})
         try:
             user = User.objects.get(phone=data['phone'])
-            self.context['request'].log_context['phone'] = data['phone']
             if not user.is_active:
                 raise serializers.ValidationError({'phone': [_('User is blocked')]})
         except User.DoesNotExist as e:
