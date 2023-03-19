@@ -5,9 +5,8 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 
-from .tasks import send_sms
-
 from .exceptions import InvalidCodeException, ResendNotAvailable, TemporaryBlocked
+from .tasks import send_sms
 
 
 class OTP:

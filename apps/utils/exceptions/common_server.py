@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.utils.translation import gettext_lazy as _
-from rest_framework import exceptions, status
+from rest_framework import status
 from rest_framework.views import exception_handler
 
 

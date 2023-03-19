@@ -2,11 +2,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .tasks import send_push_notifications
-
 from .managers import UserAdminProxyManager, UserBaseProxyManager
 from .otp import OTP
 from .roles import RolePermission, UserRole
+from .tasks import send_push_notifications
 from .validatiors import phone_validator
 
 

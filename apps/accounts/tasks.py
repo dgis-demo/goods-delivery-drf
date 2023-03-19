@@ -2,6 +2,7 @@ from django.conf import settings
 from firebase_admin import credentials, initialize_app, messaging
 
 from Project.celery import app
+
 from .sms_sender import AbstractSmsSender, senders
 
 
