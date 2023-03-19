@@ -5,25 +5,11 @@ from pytest_factoryboy import register
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.accounts.factories import UserFactory
+from tests.accounts.factories import UserFactory
 
 
 # AUTHENTICATION
-register(UserFactory)
-register(
-    UserFactory,
-    "customer_user",
-    role="customer"
-)
-register(
-    UserFactory,
-    "courier_user",
-    role="courier"
-)
-register(UserFactory, "first_user")
-register(UserFactory, "second_user")
-
-register(UserFactory, "customer")
+register(UserFactory, 'user')
 
 
 @pytest.fixture
@@ -63,3 +49,8 @@ def create_user(db, django_user_model, test_password):
             kwargs['username'] = str(uuid.uuid4())
         return django_user_model.objects.create_user(**kwargs)
     return make_user
+
+
+@pytest.fixture
+def create_device_token(db):
+    return
