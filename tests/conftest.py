@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from tests.accounts.factories import UserFactory
 from tests.notifications.factories import DeviceTokenFactory
+from faker import Faker
 
 
 # AUTHENTICATION
@@ -20,3 +21,8 @@ def api_client(user):
     refresh = RefreshToken.for_user(user)
     client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
     return client
+
+
+@pytest.fixture(scope='session', autouse=True)
+def fake():
+    return Faker(['en-US'])
