@@ -9,6 +9,7 @@ You can find a `swagger` documentation by the following link: `http://localhost:
 You can use some of the following commands in order to format, check, or test the application:
 1. `make format` - sorts out import of modules
 2. `make lint` - checks out possible syntax mistakes
+3. `make test` - runs tests using `pytest`
 
 ## Authentication API
 - `POST /api/v1/auth/login/phone/courier/`  
