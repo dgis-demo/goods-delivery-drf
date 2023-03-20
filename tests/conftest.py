@@ -1,11 +1,11 @@
 import pytest
+from faker import Faker
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from tests.accounts.factories import UserFactory
 from tests.notifications.factories import DeviceTokenFactory
-from faker import Faker
 
 
 # AUTHENTICATION
