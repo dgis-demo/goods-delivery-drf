@@ -3,6 +3,7 @@ from http import HTTPStatus
 import pytest
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import reverse
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.models import User
 from apps.accounts.roles import UserRole
@@ -100,3 +101,30 @@ class TestLoginStoreWorker(TestLoginUsername):
         )
 
         assert response.status_code == HTTPStatus.FORBIDDEN
+
+
+class TestTokenRefresh:
+    url = reverse('auth:token-refresh')
+
+    @pytest.mark.django_db
+    def test_refresh_token_success(self, api_client, user):
+        refresh = RefreshToken.for_user(user)
+        response = api_client.post(
+            self.url,
+            data={
+                'refresh': str(refresh),
+            },
+        )
+
+        assert response.status_code == HTTPStatus.OK
+
+    @pytest.mark.django_db
+    def test_refresh_token_unauthorised(self, api_client, user):
+        response = api_client.post(
+            self.url,
+            data={
+                'refresh': user.username,
+            },
+        )
+
+        assert response.status_code == HTTPStatus.UNAUTHORIZED
